@@ -1,0 +1,282 @@
+<div class="space-y-8">
+  <!-- Header -->
+  <div class="flex justify-between items-center">
+    <app-button
+      routerLink="/dashboard/appointments"
+      [bgColor]="'bg-gray-500'"
+      [bgHover]="'hover:bg-gray-600'"
+      [color]="'text-white'"
+    >
+      Voltar
+    </app-button>
+    <app-button
+      (click)="onSubmit()"
+      bgColor="bg-blue-500"
+      color="text-white"
+      bgHover="hover:bg-blue-600"
+      type="submit"
+    >
+      Submeter Consulta
+    </app-button>
+  </div>
+
+  <h2 class="text-lg font-medium">Editar Consulta</h2>
+
+  <!-- Form -->
+  <form
+    [formGroup]="editAppointmentForm"
+    class="grid grid-cols-1 md:grid-cols-2 gap-4"
+  >
+    <!-- Required Fields -->
+    <div>
+      <app-input
+        id="reasonForVisit"
+        label="Razão da Consulta *"
+        type="text"
+        formControlName="reasonForVisit"
+      ></app-input>
+      <span
+        *ngIf="
+          reasonForVisit?.invalid &&
+          (reasonForVisit?.dirty || reasonForVisit?.touched)
+        "
+        class="text-red-500 text-sm"
+        >Razão da Consulta é obrigatória</span
+      >
+    </div>
+
+    <div>
+      <app-input
+        id="appointmentType"
+        label="Tipo de Consulta *"
+        type="text"
+        formControlName="appointmentType"
+      ></app-input>
+      <span
+        *ngIf="
+          appointmentType?.invalid &&
+          (appointmentType?.dirty || appointmentType?.touched)
+        "
+        class="text-red-500 text-sm"
+        >Tipo de Consulta é obrigatória</span
+      >
+    </div>
+
+    <div>
+      <app-input
+        id="specialty"
+        label="Especialidade *"
+        type="text"
+        formControlName="specialty"
+      ></app-input>
+      <span
+        *ngIf="specialty?.invalid && (specialty?.dirty || specialty?.touched)"
+        class="text-red-500 text-sm"
+        >Especialidade é obrigatória</span
+      >
+    </div>
+
+    <div>
+      <app-input
+        id="symptoms"
+        label="Sintomas *"
+        type="text"
+        formControlName="symptoms"
+      ></app-input>
+      <span
+        *ngIf="symptoms?.invalid && (symptoms?.dirty || symptoms?.touched)"
+        class="text-red-500 text-sm"
+        >Sintomas são obrigatórios</span
+      >
+    </div>
+
+    <div>
+      <label for="institution" class="block text-sm font-medium text-gray-700">
+        Instituição *
+      </label>
+      <select
+        id="institution"
+        formControlName="institution"
+        class="mt-1 min-h-10 block w-full gap-2 px-4 py-2 border bg-white border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+      >
+        <option value="" disabled>Selecione uma instituição</option>
+        <option *ngFor="let item of institutions" [value]="item.id">
+          {{ item.name }}
+        </option>
+      </select>
+      <span
+        *ngIf="
+          institution?.invalid && (institution?.dirty || institution?.touched)
+        "
+        class="text-red-500 text-sm"
+      >
+        Instituição é obrigatória
+      </span>
+    </div>
+
+    <div>
+      <app-input
+        id="date"
+        label="Data da Consulta *"
+        type="date"
+        formControlName="date"
+        [min]="today"
+      ></app-input>
+      <span
+        *ngIf="date?.invalid && (date?.dirty || date?.touched)"
+        class="text-red-500 text-sm"
+        >A Data da Consulta é obrigatória</span
+      >
+    </div>
+
+    <!-- Medical Leave Section -->
+    <ng-container formGroupName="medicalLeave">
+      <h3 class="text-md font-medium md:col-span-2">
+        Emitir Baixa Médica
+        <label class="inline-flex items-center">
+          <input
+            type="checkbox"
+            class="form-checkbox"
+            [checked]="includeMedicalLeave"
+            (change)="toggleMedicalLeave()"
+          />
+        </label>
+      </h3>
+
+      <div *ngIf="includeMedicalLeave">
+        <app-input
+          id="leaveStartDate"
+          label="Data de Início *"
+          type="date"
+          [min]="today"
+          formControlName="startDate"
+        ></app-input>
+        <span
+          *ngIf="
+            medicalLeave?.get('startDate')?.invalid &&
+            (medicalLeave?.get('startDate')?.dirty ||
+              medicalLeave?.get('startDate')?.touched)
+          "
+          class="text-red-500 text-sm"
+        >
+          Data de Início é obrigatória
+        </span>
+      </div>
+
+      <div *ngIf="includeMedicalLeave">
+        <app-input
+          id="leaveEndDate"
+          label="Data de Fim *"
+          [min]="today"
+          type="date"
+          formControlName="endDate"
+        ></app-input>
+        <span
+          *ngIf="
+            medicalLeave?.get('endDate')?.invalid &&
+            (medicalLeave?.get('endDate')?.dirty ||
+              medicalLeave?.get('endDate')?.touched)
+          "
+          class="text-red-500 text-sm"
+        >
+          Data de Fim é obrigatória
+        </span>
+      </div>
+
+      <div *ngIf="includeMedicalLeave">
+        <app-input
+          id="leaveDiagnosis"
+          label="Diagnóstico da Baixa *"
+          type="text"
+          formControlName="diagnosis"
+        ></app-input>
+        <span
+          *ngIf="
+            medicalLeave?.get('diagnosis')?.invalid &&
+            (medicalLeave?.get('diagnosis')?.dirty ||
+              medicalLeave?.get('diagnosis')?.touched)
+          "
+          class="text-red-500 text-sm"
+        >
+          Diagnóstico da Baixa é obrigatório
+        </span>
+      </div>
+
+      <div *ngIf="includeMedicalLeave">
+        <app-input
+          id="leaveRecommendations"
+          label="Recomendações *"
+          type="text"
+          formControlName="recommendations"
+        ></app-input>
+        <span
+          *ngIf="
+            medicalLeave?.get('recommendations')?.invalid &&
+            (medicalLeave?.get('recommendations')?.dirty ||
+              medicalLeave?.get('recommendations')?.touched)
+          "
+          class="text-red-500 text-sm"
+        >
+          Recomendações são obrigatórias
+        </span>
+      </div>
+
+      <div *ngIf="includeMedicalLeave">
+        <app-input
+          id="leaveEmployer"
+          label="Empregador *"
+          type="text"
+          formControlName="employer"
+        ></app-input>
+        <span
+          *ngIf="
+            medicalLeave?.get('employer')?.invalid &&
+            (medicalLeave?.get('employer')?.dirty ||
+              medicalLeave?.get('employer')?.touched)
+          "
+          class="text-red-500 text-sm"
+        >
+          Empregador é obrigatório
+        </span>
+      </div>
+
+      <div *ngIf="includeMedicalLeave">
+        <app-input
+          id="leaveJobFunction"
+          label="Função no Trabalho *"
+          type="text"
+          formControlName="jobFunction"
+        ></app-input>
+        <span
+          *ngIf="
+            medicalLeave?.get('jobFunction')?.invalid &&
+            (medicalLeave?.get('jobFunction')?.dirty ||
+              medicalLeave?.get('jobFunction')?.touched)
+          "
+          class="text-red-500 text-sm"
+        >
+          Função no Trabalho é obrigatória
+        </span>
+      </div>
+
+      <div *ngIf="includeMedicalLeave">
+        <app-input
+          id="leaveEducationLevel"
+          label="Nível Educacional *"
+          type="text"
+          formControlName="educationLevel"
+        ></app-input>
+        <span
+          *ngIf="
+            medicalLeave?.get('educationLevel')?.invalid &&
+            (medicalLeave?.get('educationLevel')?.dirty ||
+              medicalLeave?.get('educationLevel')?.touched)
+          "
+          class="text-red-500 text-sm"
+        >
+          Nível Educacional é obrigatório
+        </span>
+      </div>
+    </ng-container>
+  </form>
+</div>

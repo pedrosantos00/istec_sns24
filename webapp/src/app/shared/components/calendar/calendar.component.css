@@ -1,0 +1,57 @@
+.calendar-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  margin-top: 20px; /* Add some margin at the top */
+}
+
+.calendar-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* Ensure equal column widths */
+}
+
+th {
+  text-align: center;
+  font-weight: bold;
+  padding: 0.25rem;
+  color: #4a5568; /* Gray color */
+}
+
+td {
+  position: relative;
+  vertical-align: top;
+  padding: 0.5rem;
+  background-color: #ffffff;
+}
+
+.h-20 {
+  height: 5rem; /* Smaller cell height */
+}
+
+.bg-blue-100 {
+  background-color: #ebf8ff;
+}
+
+.bg-green-300\/70 {
+  background-color: rgba(134, 239, 172, 0.7);
+}
+
+.hover\:bg-green-400:hover {
+  background-color: #68d391;
+}
+
+.appointments .truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.appointments {
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.text-blue-500 {
+  color: #4299e1;
+}

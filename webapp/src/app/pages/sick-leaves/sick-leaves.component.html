@@ -1,0 +1,140 @@
+<div class="flex flex-col space-y-5">
+  <h1 class="font-medium text-2xl">Baixas Médicas</h1>
+  <p>Aqui pode consultar todas as suas baixas médicas</p>
+
+  <!-- Filters Section -->
+  <div class="flex justify-between flex-wrap gap-2">
+    <div class="flex bg-gray-200 space-x-2 h-10 rounded p-1">
+      <button
+        (click)="applyFilter(FilterOption.All)"
+        [ngClass]="
+          filteredOption === FilterOption.All
+            ? 'bg-white text-black shadow'
+            : 'bg-gray-200 text-gray-600'
+        "
+        class="w-24 rounded"
+      >
+        Todos
+      </button>
+      <button
+        (click)="applyFilter(FilterOption.Active)"
+        [ngClass]="
+          filteredOption === FilterOption.Active
+            ? 'bg-white text-black shadow'
+            : 'bg-gray-200 text-gray-600'
+        "
+        class="w-24 rounded"
+      >
+        Activas
+      </button>
+      <button
+        (click)="applyFilter(FilterOption.Expired)"
+        [ngClass]="
+          filteredOption === FilterOption.Expired
+            ? 'bg-white text-black shadow'
+            : 'bg-gray-200 text-gray-600'
+        "
+        class="w-24 rounded"
+      >
+        Expiradas
+      </button>
+    </div>
+    <div class="flex space-x-2">
+      <div class="flex relative">
+        <input
+          [(ngModel)]="search"
+          (input)="searchFilter()"
+          type="text"
+          class="text-black pl-10 pr-4 py-2 border rounded"
+          placeholder="Pesquisar"
+        />
+        <div
+          class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+        >
+          <ng-icon name="heroMagnifyingGlass" class="text-black font-bold"></ng-icon>
+        </div>
+      </div>
+      <div class="flex">
+        <select [(ngModel)]="orderby" (change)="orderBy()" class="rounded px-4">
+          <option disabled selected value="">Ordenar por</option>
+          <option value="ASC">Mais Recentes</option>
+          <option value="DESC">Mais Antigas</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table Section -->
+  <div class="flex w-full overflow-x-auto">
+    <table class="w-full table-auto">
+      <thead>
+        <tr>
+          <th class="px-4 py-2">Data Início</th>
+          <th class="px-4 py-2">Data Alta</th>
+          <th class="px-4 py-2">Estado</th>
+          <th class="px-4 py-2">Diagnóstico</th>
+          <th class="px-4 py-2">Nome Médico</th>
+          <th class="px-4 py-2">Especialidade</th>
+          <th class="px-4 py-2">PDF</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let leave of displayedMedicalLeaves">
+          <td class="border px-4 py-2">{{ leave.startDate | date: 'dd/MM/yyyy' }}</td>
+          <td class="border px-4 py-2">{{ leave.endDate | date: 'dd/MM/yyyy' }}</td>
+          <td class="border px-4 py-2">
+            {{ leave.status == 0 ? 'Ativa' : 'Expirada' }}
+          </td>
+          <td class="border px-4 py-2">{{ leave.diagnosis }}</td>
+          <td class="border px-4 py-2">{{ leave.doctor?.name }}</td>
+          <td class="border px-4 py-2">{{ leave.doctor?.specialty }}</td>
+          <td (click)="generatePdf(leave)" class="border px-4 py-2 text-center cursor-pointer">
+            <ng-icon
+              name="heroArrowDownOnSquare"
+              class="text-green-700 hover:text-green-500/50 transition-all duration-150 text-2xl font-bold"
+            ></ng-icon>
+          </td>
+        </tr>
+        <tr *ngIf="displayedMedicalLeaves.length === 0">
+          <td colspan="7" class="text-center py-4 text-gray-500">
+            Nenhuma baixa médica encontrada.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination Controls -->
+  <div *ngIf="displayedMedicalLeaves.length > 0" class="flex justify-between items-center mt-4">
+    <button
+      class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+      (click)="previousPage()"
+      [disabled]="currentPage === 1"
+    >
+      Anterior
+    </button>
+
+    <div class="space-x-2">
+      <button
+        *ngFor="let page of [].constructor(totalPages); let i = index"
+        class="px-3 py-1 rounded"
+        [ngClass]="
+          currentPage === i + 1
+            ? 'bg-blue-500 text-white'
+            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+        "
+        (click)="goToPage(i + 1)"
+      >
+        {{ i + 1 }}
+      </button>
+    </div>
+
+    <button
+      class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+      (click)="nextPage()"
+      [disabled]="currentPage === totalPages"
+    >
+      Próxima
+    </button>
+  </div>
+</div>

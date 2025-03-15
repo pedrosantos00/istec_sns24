@@ -1,0 +1,87 @@
+<app-navbar></app-navbar>
+
+<div class="w-full">
+  <div class="welcome flex flex-wrap items-center w-full">
+    <div class="flex items-center flex-col w-full md:w-5/12">
+      <div class="w-fit md:px-8 text-center md:text-start">
+        <h1 class="text-3xl md:text-4xl font-bold leading-loose">Portal SNS24</h1>
+        <p class="text-xl md:text-2xl font-medium tracking-wider">O Portal que cuida da sua saúde</p>
+      </div>
+    </div>
+    <div class="flex justify-center w-full md:w-7/12">
+      <img class="max-w-[75%]" src="assets/img/medicine.svg" alt="" srcset="">
+    </div>
+  </div>
+
+  <div
+    class="flex justify-center w-full h-full md:h-32 shadow-sm border-t items-center bg-gradient-to-r from-blue-500 to-blue-400">
+    <div class="flex flex-col md:flex-row container py-10 md:py-0 gap-y-8 md:gap-y-0 items-center">
+      <div class="info-card">
+        <div class="flex h-full">
+          <ng-icon name="heroPhone" class="text-4xl"></ng-icon>
+        </div>
+        <div class="flex flex-col justify-center text-center">
+          <p class="text-2xl">Telefone</p>
+          <p class="text-3xl text-center font-bold">808 24 24 24</p>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="flex h-full">
+          <ng-icon name="heroUserGroup" class="text-4xl"></ng-icon>
+        </div>
+        <div class="flex flex-col justify-center text-center">
+          <p class="text-2xl">Presencial</p>
+          <p class="text-3xl text-center font-bold">Balcões</p>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="flex h-full">
+          <ng-icon name="heroDevicePhoneMobile" class="text-4xl"></ng-icon>
+        </div>
+        <div class="flex flex-col justify-center text-center">
+          <p class="text-2xl">Online</p>
+          <p class="text-3xl text-center font-bold">Portal Responsivo</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="grow bg-gray-100">
+    <section class="container mx-auto py-16 px-6">
+      <h2 class="text-3xl font-semibold text-center mb-12">
+        Os Nossos Serviços
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="services-card">
+          <ng-icon name="heroIdentification" class="text-4xl text-blue-500"></ng-icon>
+          <h3 class="text-xl font-semibold mb-2">Alterar Dados Pessoais</h3>
+          <p class="text-gray-600">Atualize facilmente as suas informações.</p>
+          <app-button [routerLink]="isLogged ? 'dashboard/profile' : 'login'" class="mt-4"> Aceder</app-button>
+        </div>
+
+        <div class="services-card">
+          <ng-icon name="heroClipboardDocumentCheck" class="text-4xl text-blue-500"></ng-icon>
+          <h3 class="text-xl font-semibold mb-2">Atestados Médicos e Baixas</h3>
+          <p class="text-gray-600">Consultar os atestados médicos e baixas.</p>
+          <app-button [routerLink]="isLogged ? 'dashboard/sick-leaves' : 'login'" class="mt-4">Saber Mais</app-button>
+        </div>
+
+        <div class="services-card">
+          <ng-icon name="heroCalendarDays" class="text-4xl text-blue-500"></ng-icon>
+          <h3 class="text-xl font-semibold mb-2">Verificar Consultas</h3>
+          <p class="text-gray-600">Acompanhe as suas consultas marcadas.</p>
+          <app-button [routerLink]="isLogged ? 'dashboard/appointments' : 'login'" class="mt-4">Verificar</app-button>
+        </div>
+
+        <div class="services-card">
+          <ng-icon name="heroDocumentText" class="text-4xl text-blue-500"></ng-icon>
+          <h3 class="text-xl font-semibold mb-2">Dashboard</h3>
+          <p class="text-gray-600">Consulte as suas informações.</p>
+          <app-button [routerLink]="isLogged ? 'dashboard' : 'login'" class="mt-4">Aceder</app-button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<app-footer></app-footer>

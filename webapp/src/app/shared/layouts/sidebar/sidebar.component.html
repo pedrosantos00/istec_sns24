@@ -1,0 +1,79 @@
+<div
+  class="sidebar flex flex-col h-full bg-white border-r border-gray-300 transition-all duration-300"
+  [ngClass]="{ 'w-16': !isExpanded, '!w-64': isExpanded }"
+>
+  <!-- Toggle Button -->
+  <div class="p-4 border-b border-gray-200 md:hidden">
+    <button
+      class="p-2 rounded-full hover:bg-gray-100 transition duration-200"
+      (click)="toggleSidebar()"
+    >
+      <ng-icon
+        [name]="isExpanded ? 'heroChevronLeft' : 'heroChevronRight'"
+        class="text-gray-500 text-xl"
+      ></ng-icon>
+    </button>
+  </div>
+
+  <!-- Sidebar Content -->
+  <div class="h-full px-3 py-4 flex flex-col justify-between overflow-y-auto">
+    <ul class="space-y-2">
+      <li
+        *ngFor="let sidebar of sidebars"
+        [routerLink]="sidebar.route"
+        routerLinkActive="bg-blue-100"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="flex items-center py-3 px-4 rounded-lg cursor-pointer hover:bg-blue-50 transition-all duration-200"
+      >
+        <!-- Sidebar Icon -->
+        <ng-icon [name]="sidebar.icon" class="text-blue-500 text-xl"></ng-icon>
+
+        <!-- Sidebar Title (Hidden on Collapse) -->
+        <span *ngIf="isExpanded" class="ms-3 text-gray-900">
+          {{ sidebar.title }}
+        </span>
+      </li>
+    </ul>
+
+    <!-- Profile, Institutions and Logout -->
+    <div class="flex flex-col mt-auto mb-4">
+      <li
+        routerLink="institutions"
+        routerLinkActive="bg-blue-100"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="flex items-center py-3 px-4 rounded-lg mb-2 cursor-pointer hover:bg-blue-50 transition-all duration-200"
+      >
+        <ng-icon [name]="'heroHome'" class="text-blue-500 text-xl"></ng-icon>
+        <span *ngIf="isExpanded" class="ms-3 text-gray-900">Instituições</span>
+      </li>
+
+      <li
+        routerLink="profile"
+        routerLinkActive="bg-blue-100"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="flex items-center py-3 px-4 rounded-lg mb-2 cursor-pointer hover:bg-blue-50 transition-all duration-200"
+      >
+        <ng-icon
+          [name]="'heroIdentification'"
+          class="text-blue-500 text-xl"
+        ></ng-icon>
+        <span *ngIf="isExpanded" class="ms-3 text-gray-900">Perfil</span>
+      </li>
+
+      <div class="h-[2px] w-full bg-black/5 mb-4"></div>
+
+      <li
+        (click)="logout()"
+        class="flex items-center py-3 px-4 rounded-lg cursor-pointer hover:bg-red-50 transition-all duration-200"
+      >
+        <ng-icon
+          name="heroArrowLeftStartOnRectangleSolid"
+          class="text-red-500 text-xl"
+        ></ng-icon>
+        <span *ngIf="isExpanded" class="ms-3 text-gray-900"
+          >Terminar Sessão</span
+        >
+      </li>
+    </div>
+  </div>
+</div>

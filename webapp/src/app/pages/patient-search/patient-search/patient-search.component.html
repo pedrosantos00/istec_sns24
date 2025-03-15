@@ -1,0 +1,44 @@
+<div>
+  <!-- Button to open modal -->
+  <button
+    type="button"
+    class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+    (click)="openPatientModal()"
+  >
+    Procurar Paciente
+  </button>
+
+  <!-- Modal -->
+  <div
+    *ngIf="showPatientModal"
+    class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center"
+  >
+    <div class="bg-white w-1/2 p-6 rounded shadow-lg">
+      <h2 class="text-lg font-medium mb-4">Selecionar Paciente</h2>
+      <input
+        type="text"
+        placeholder="Pesquisar por nome ou documento"
+        [(ngModel)]="patientSearch"
+        class="border px-4 py-2 w-full rounded mb-4"
+        (input)="onSearchPatients()"
+      />
+      <ul class="divide-y">
+        <li
+          *ngFor="let patient of filteredPatients"
+          class="p-2 cursor-pointer hover:bg-gray-100"
+          (click)="selectPatient(patient)"
+        >
+          {{ patient.name }} ({{ patient.documentNumber }})
+        </li>
+      </ul>
+      <div class="flex justify-end mt-4">
+        <button
+          class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded mr-2"
+          (click)="closePatientModal()"
+        >
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

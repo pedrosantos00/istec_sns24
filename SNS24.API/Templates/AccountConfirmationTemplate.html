@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmação de Conta</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 0;
+            border-radius: 10px 10px 0 0;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .content {
+            margin: 20px 0;
+        }
+        .button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <div class="header">
+        <h1>Bem-vindo!</h1>
+    </div>
+    <div class="content">
+        <p>Olá,</p>
+        <p>Obrigado por se registar na nossa plataforma! Antes de começar, precisamos que confirme o seu endereço de e-mail.</p>
+        <p>
+            Para ativar a sua conta, clique no botão abaixo:
+        </p>
+        <a href="{{CONFIRMATION_LINK}}" target="_blank" class="button">Confirmar Conta</a>
+        <p style="margin-top:10px">Se o botão acima não funcionar, copie e cole o seguinte link no seu navegador:</p>
+        <p><a href="{{CONFIRMATION_LINK}}">{{CONFIRMATION_LINK}}</a></p>
+        <p>Se não reconhece este registo, pode ignorar este e-mail.</p>
+    </div>
+    <div class="footer">
+        <p>Se precisar de ajuda, entre em contacto connosco através do e-mail suporte@sns.com.</p>
+        <p>Obrigado, <br> Equipa SNS</p>
+    </div>
+</div>
+</body>
+</html>

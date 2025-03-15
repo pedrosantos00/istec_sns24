@@ -1,0 +1,182 @@
+<div class="flex flex-col space-y-5">
+  <!-- Title and Button Row -->
+  <div class="flex justify-between items-center gap-4">
+    <h1 class="font-medium text-2xl">Consultas</h1>
+    <app-button
+      color="text-white"
+      bgHover="bg-green-600"
+      bgColor="hover:bg-green-500"
+      routerLink="/dashboard/appointments/create"
+    >
+      {{ isPacient ? "Marcar Consulta" : "Criar Consulta" }}
+    </app-button>
+  </div>
+
+  <p>Aqui pode consultar todas as suas consultas médicas</p>
+
+  <!-- Filters Section -->
+  <div class="flex justify-between flex-wrap gap-2">
+    <div class="flex bg-gray-200 space-x-2 h-10 rounded p-1">
+      <button
+        (click)="applyFilter(FilterOption.All)"
+        [ngClass]="
+          filteredOption === FilterOption.All
+            ? 'bg-white text-black shadow'
+            : 'bg-gray-200 text-gray-600'
+        "
+        class="w-24 rounded"
+      >
+        Todos
+      </button>
+      <button
+        (click)="applyFilter(FilterOption.Realized)"
+        [ngClass]="
+          filteredOption === FilterOption.Realized
+            ? 'bg-white text-black shadow'
+            : 'bg-gray-200 text-gray-600'
+        "
+        class="w-24 rounded"
+      >
+        Realizadas
+      </button>
+      <button
+        (click)="applyFilter(FilterOption.NotRealized)"
+        [ngClass]="
+          filteredOption === FilterOption.NotRealized
+            ? 'bg-white text-black shadow'
+            : 'bg-gray-200 text-gray-600'
+        "
+        class="w-28 rounded"
+      >
+        Não Realizadas
+      </button>
+    </div>
+    <div class="flex space-x-2">
+      <div class="flex relative">
+        <input
+          [(ngModel)]="search"
+          (input)="searchFilter()"
+          type="text"
+          class="text-black pl-10 pr-4 py-2 border rounded"
+          placeholder="Pesquisar"
+        />
+        <div
+          class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+        >
+          <ng-icon
+            name="heroMagnifyingGlass"
+            class="text-black font-bold"
+          ></ng-icon>
+        </div>
+      </div>
+      <div class="flex">
+        <select [(ngModel)]="orderby" (change)="orderBy()" class="rounded px-4">
+          <option disabled selected value="">Ordenar por</option>
+          <option value="ASC">Mais Recentes</option>
+          <option value="DESC">Mais Antigas</option>
+        </select>
+      </div>
+      <div class="flex">
+        <select
+          [(ngModel)]="filterby"
+          (change)="filterBy()"
+          class="rounded px-4"
+        >
+          <option disabled selected value="">Filtrar por</option>
+          <option value="All">Todas</option>
+          <option value="Private">Setor Privado</option>
+          <option value="Public">Setor Público</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table Section -->
+  <div class="flex w-full overflow-x-auto">
+    <table class="w-full table-auto">
+      <thead>
+        <tr>
+          <th class="px-4 py-2">Data</th>
+          <th class="px-4 py-2">Local</th>
+          <th class="px-4 py-2">Motivo</th>
+          <th class="px-4 py-2">Especialidade</th>
+          <th class="px-4 py-2">Baixa médica</th>
+          <th class="px-4 py-2">Realizada</th>
+          <th class="px-4 py-2">Setor Publico</th>
+          <th class="px-4 py-2">Detalhes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let medical of displayedAppointments">
+          <td class="border px-4 py-2">
+            {{ medical.appointment.date | date }}
+          </td>
+          <td class="border px-4 py-2">
+            {{ medical.appointment.institution?.name }}
+          </td>
+          <td class="border px-4 py-2">{{ medical.reasonForVisit }}</td>
+          <td class="border px-4 py-2">{{ medical.specialty }}</td>
+          <td class="border px-4 py-2">
+            {{ medical.medicalLeave ? "Sim" : "Não" }}
+          </td>
+          <td class="border px-4 py-2">
+            {{ medical.appointment.attended ? "Sim" : "Não" }}
+          </td>
+          <td class="border px-4 py-2">
+            {{
+              medical.appointment.institution?.isPublicSector ? "Sim" : "Não"
+            }}
+          </td>
+          <td class="border px-4 py-2 text-center">
+            <button
+              class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+              (click)="viewDetails(medical.id)"
+            >
+              Ver Detalhes
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="displayedAppointments.length === 0">
+          <td colspan="7" class="text-center py-4 text-gray-500">
+            Nenhuma consulta médica encontrada.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination Section -->
+  <div
+    *ngIf="displayedAppointments.length > 0"
+    class="flex justify-between items-center mt-4"
+  >
+    <button
+      class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+      (click)="previousPage()"
+      [disabled]="currentPage === 1"
+    >
+      Anterior
+    </button>
+    <div class="space-x-2">
+      <button
+        *ngFor="let page of [].constructor(totalPages); let i = index"
+        class="px-3 py-1 rounded"
+        [ngClass]="
+          currentPage === i + 1
+            ? 'bg-blue-500 text-white'
+            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+        "
+        (click)="goToPage(i + 1)"
+      >
+        {{ i + 1 }}
+      </button>
+    </div>
+    <button
+      class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+      (click)="nextPage()"
+      [disabled]="currentPage === totalPages"
+    >
+      Próxima
+    </button>
+  </div>
+</div>

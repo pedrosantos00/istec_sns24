@@ -1,0 +1,13 @@
+<div class="text-sm font-medium text-center w-full text-gray-500 border-b border-gray-200">
+  <ul class="flex flex-wrap -mb-px">
+    <li class="me-2 cursor-pointer">
+      <a *ngFor="let tab of tabs" (click)="selectTab(tab)"
+        class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300"
+        [ngClass]="tab.isActive ? '!border-b-2 !border-black !text-black' : '' ">{{tab.title}}</a>
+    </li>
+  </ul>
+</div>
+
+<div class="flex flex-col py-4">
+  <ng-content></ng-content>
+</div>

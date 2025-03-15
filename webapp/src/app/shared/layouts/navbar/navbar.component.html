@@ -1,0 +1,17 @@
+<header class="flex w-full p-6 h-24 shadow-sm border-b justify-center">
+  <div class="flex container justify-between items-center">
+    <img routerLink="" class="w-32 md:w-fit cursor-pointer" src="assets/logosns.svg" alt="Logo">
+
+    <app-button *ngIf="!isLogged" [routerLink]="'login'">
+      <ng-icon name="heroUserCircle" class="text-2xl"></ng-icon>
+      Iniciar Sessão
+    </app-button>
+
+    <div *ngIf="isLogged"
+      [routerLink]="profileIconClick ? 'profile' : 'dashboard'"
+      class="flex justify-center items-center w-14 h-14 border rounded-full cursor-pointer hover:scale-105 hover:shadow-sm transition-all duration-75 bg-gray-100">
+      <img *ngIf="profilePicture" [src]="profilePicture" alt="User" class="w-full h-full object-cover rounded-full">
+      <ng-icon *ngIf="!profilePicture" class="text-4xl text-blue-500" name="heroUser"></ng-icon>
+    </div>
+  </div>
+</header>

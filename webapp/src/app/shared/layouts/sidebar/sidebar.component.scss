@@ -1,0 +1,4 @@
+.sidebar {
+    @apply w-20 border-r shadow md:w-72;
+   min-height: calc(100vh - 6rem);
+}

@@ -1,0 +1,104 @@
+<div class="flex flex-col space-y-5">
+  <h1 class="font-medium text-2xl">
+    Bem vindo(a), {{ dashboard?.user?.name ?? "" }}
+  </h1>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div *ngIf="isPacient == true" class="services-card bg-blue-200/80 p-6">
+      <div class="flex flex-wrap justify-between">
+        <h3 class="text-xl font-semibold mb-2">Rastreios de saúde</h3>
+        <ng-icon name="heroHeart" class="text-4xl text-blue-900"></ng-icon>
+      </div>
+      <p
+        class="hover:underline hover:cursor-pointer hover:text-gray-500"
+        (click)="openImcCalculator()"
+      >
+        Calcular IMC
+      </p>
+      <p
+        class="hover:underline hover:cursor-pointer hover:text-gray-500"
+        (click)="openDiabetesCalculator()"
+      >
+        Verificar Nivel Diabetes
+      </p>
+
+      <!-- IMC Calculator Modal -->
+      <app-imcCalculator
+        *ngIf="showImcModal"
+        [isOpen]="showImcModal"
+        (close)="closeModal()"
+      ></app-imcCalculator>
+
+      <!-- Diabetes Calculator Modal -->
+      <app-diabetesCalculator
+        *ngIf="showDiabetesModal"
+        [isOpen]="showDiabetesModal"
+        (close)="closeModal()"
+      ></app-diabetesCalculator>
+    </div>
+
+    <div *ngIf="isPacient == false" class="services-card bg-blue-200/80 p-6">
+      <div class="flex flex-wrap justify-between">
+        <h3 class="text-xl font-semibold mb-2">Acessos Rápidos</h3>
+        <ng-icon name="heroHeart" class="text-4xl text-blue-900"></ng-icon>
+      </div>
+      <p class="hover:cursor-pointer hover:underline" routerLink="/dashboard/appointments/create">Criar Consulta</p>
+      <p class="hover:cursor-pointer hover:underline" routerLink="/dashboard/sick-leaves">Verificar Baixas Médicas</p>
+    </div>
+
+    <!-- Últimas Consultas -->
+    <div class="services-card bg-green-200/80 p-6">
+      <div class="flex flex-wrap justify-between">
+        <h3 class="text-xl font-semibold mb-2">Últimas Consultas</h3>
+        <ng-icon
+          name="heroClipboardDocumentList"
+          class="text-4xl text-green-900"
+        ></ng-icon>
+      </div>
+      <ng-container *ngIf="limitedAppointments.length > 0; else noAppointments">
+        <p *ngFor="let appointment of limitedAppointments">
+          {{ appointment.reasonForVisit }} - Dia
+          {{ appointment.appointment?.date | date : "dd/MM/yyyy" }}
+        </p>
+      </ng-container>
+      <ng-template #noAppointments>
+        <p class="text-gray-500">Sem consultas recentes.</p>
+      </ng-template>
+    </div>
+
+    <!-- Últimas Baixas Médicas -->
+    <div class="services-card bg-yellow-200/40 p-6">
+      <div class="flex flex-wrap justify-between">
+        <h3 class="text-xl font-semibold mb-2">Últimas Baixas Médicas</h3>
+        <ng-icon name="ionMedical" class="text-4xl text-yellow-900"></ng-icon>
+      </div>
+      <ng-container *ngIf="limitedMedicalLeaves.length > 0; else noLeaves">
+        <p *ngFor="let leave of limitedMedicalLeaves">
+          {{ leave?.diagnosis ?? "Diagnóstico não disponível" }} -
+          {{ leave?.startDate | date : "dd/MM/yyyy" }}
+        </p>
+      </ng-container>
+      <ng-template #noLeaves>
+        <p class="text-gray-500">Sem baixas médicas recentes.</p>
+      </ng-template>
+    </div>
+
+    <!-- Alertas -->
+    <div class="services-card bg-red-200/70 p-6">
+      <div class="flex flex-wrap justify-between">
+        <h3 class="text-xl font-semibold mb-2">Alertas</h3>
+        <ng-icon name="heroBellAlert" class="text-4xl text-red-900"></ng-icon>
+      </div>
+      <ng-container *ngIf="limitedNotifications.length > 0; else noAlerts">
+        <p *ngFor="let alert of limitedNotifications">
+          {{ alert.title }} - {{ alert.notificationDate | date : "dd/MM/yyyy" }}
+        </p>
+      </ng-container>
+      <ng-template #noAlerts>
+        <p class="text-gray-500">Sem alertas recentes.</p>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
+<app-calendar [calendarEvents]="calendarEvents"></app-calendar>

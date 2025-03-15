@@ -1,0 +1,70 @@
+<div class="flex flex-col space-y-5">
+  <div class="flex justify-between items-center gap-4">
+    <h1 class="font-medium text-2xl">Instituições</h1>
+  </div>
+
+  <p>Aqui pode consultar todas as instituições disponíveis</p>
+
+  <div class="flex justify-between flex-wrap gap-2">
+    <div class="flex bg-gray-200 space-x-2 h-10 rounded p-1">
+      <button (click)="applyFilter(FilterOption.All)" [ngClass]="
+          filteredOption === FilterOption.All
+            ? 'bg-white text-black shadow'
+            : 'bg-gray-200 text-gray-600'
+        " class="w-24 rounded">
+        Todas
+      </button>
+      <button (click)="applyFilter(FilterOption.Public)" [ngClass]="
+          filteredOption === FilterOption.Public
+            ? 'bg-white text-black shadow'
+            : 'bg-gray-200 text-gray-600'
+        " class="w-24 rounded">
+        Públicas
+      </button>
+      <button (click)="applyFilter(FilterOption.Private)" [ngClass]="
+          filteredOption === FilterOption.Private
+            ? 'bg-white text-black shadow'
+            : 'bg-gray-200 text-gray-600'
+        " class="w-24 rounded">
+        Privadas
+      </button>
+    </div>
+    <div class="flex relative">
+      <input [(ngModel)]="search" (input)="searchFilter()" type="text" class="text-black pl-10 pr-4 py-2 border rounded"
+        placeholder="Pesquisar" />
+      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+        <ng-icon name="heroMagnifyingGlass" class="text-black font-bold"></ng-icon>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex w-full overflow-x-auto">
+    <table class="w-full table-auto">
+      <thead>
+        <tr>
+          <th class="px-4 py-2">Nome</th>
+          <th class="px-4 py-2">Endereço</th>
+          <th class="px-4 py-2">Setor</th>
+          <th class="px-4 py-2">Telefone</th>
+          <th class="px-4 py-2">Total de Médicos</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let institution of displayedInstitutions">
+          <td class="border px-4 py-2">{{ institution.name }}</td>
+          <td class="border px-4 py-2">{{ institution.address.street }}</td>
+          <td class="border px-4 py-2">
+            {{ institution.isPublicSector === true ? "Público" : "Privado" }}
+          </td>
+          <td class="border px-4 py-2">{{ institution.phoneNumber }}</td>
+          <td class="border px-4 py-2">{{ institution.totalDoctors }}</td>
+        </tr>
+        <tr *ngIf="displayedInstitutions.length === 0">
+          <td colspan="5" class="text-center py-4 text-gray-500">
+            Nenhuma instituição encontrada.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

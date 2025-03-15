@@ -1,0 +1,41 @@
+<div class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+  <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+    <h2 class="text-xl font-semibold mb-4">Verificar Nível de Diabetes</h2>
+    <form class="space-y-4">
+      <app-input
+        id="fastingGlucose"
+        label="Glicemia em jejum (mg/dL)"
+        [(ngModel)]="fastingGlucose"
+        name="fastingGlucose"
+        type="number"
+      ></app-input>
+      <app-input
+        id="postPrandialGlucose"
+        label="Glicemia pós-prandial (mg/dL)"
+        [(ngModel)]="postPrandialGlucose"
+        name="postPrandialGlucose"
+        type="number"
+      ></app-input>
+
+      <div class="text-lg font-medium text-gray-700 mt-4" *ngIf="result">
+        Resultado: <span [ngClass]="resultColor">{{ result }}</span>
+      </div>
+      <div class="flex justify-end space-x-2">
+        <app-button
+          bgColor="bg-gray-200"
+          color="text-black"
+          bgHover="hover:bg-gray-300"
+          (click)="closeModal()">
+          Fechar
+        </app-button>
+        <app-button
+          bgColor="bg-blue-500"
+          color="text-white"
+          bgHover="hover:bg-blue-600"
+          (click)="checkDiabetes()">
+          Verificar
+        </app-button>
+      </div>
+    </form>
+  </div>
+</div>

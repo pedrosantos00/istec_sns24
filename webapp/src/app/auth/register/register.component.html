@@ -1,0 +1,307 @@
+<div class="flex items-center justify-center min-h-screen bg-gray-200 p-4">
+  <div class="w-full max-w-md bg-white rounded-lg shadow-xl">
+    <div class="px-8 py-6">
+      <div
+        routerLink="/login"
+        class="flex items-center justify-start cursor-pointer"
+      >
+        <ng-icon class="text-xl" name="heroArrowLeft"></ng-icon>
+        <p class="text-start">Voltar</p>
+      </div>
+      <div class="flex justify-center items-center mb-6">
+        <img
+          src="assets/img/sns_icon.png"
+          alt="Logo"
+          class="justify-center h-12 w-12"
+        />
+      </div>
+      <h2 class="text-2xl font-bold text-center text-gray-800">Nova Conta</h2>
+      <p class="text-center text-gray-500 mb-8">
+        Introduza as suas credenciais para criar a sua conta
+      </p>
+
+      <app-stepper (submit)="submit();">
+        <app-step [formGroup]="personalInformation" [stepConfig]="steps[0]">
+          <form [formGroup]="personalInformation">
+            <div class="flex flex-col gap-3">
+              <app-input formControlName="name" label="Nome *"></app-input>
+              <span
+                *ngIf="name?.invalid && (name?.dirty || name?.touched)"
+                class="text-red-500 text-sm"
+              >
+                Nome é obrigatório
+              </span>
+
+              <app-input formControlName="email" label="Email *"></app-input>
+              <span
+                *ngIf="email?.invalid && (email?.dirty || email?.touched)"
+                class="text-red-500 text-sm"
+              >
+                Email é obrigatório ou inválido
+              </span>
+
+              <app-select
+                (valueChange)="gender?.setValue($event)"
+                label="Gênero *"
+              >
+                <option value="Masculino">Masculino</option>
+                <option value="Feminino">Feminino</option>
+              </app-select>
+              <span
+                *ngIf="gender?.invalid && (gender?.dirty || gender?.touched)"
+                class="text-red-500 text-sm"
+              >
+                Gênero é obrigatório
+              </span>
+
+              <app-input
+                formControlName="phoneNumber"
+                label="Telefone *"
+                type="number"
+              ></app-input>
+              <span
+                *ngIf="
+                  phoneNumber?.invalid &&
+                  (phoneNumber?.dirty || phoneNumber?.touched)
+                "
+                class="text-red-500 text-sm"
+              >
+                Telefone é obrigatório ou inválido
+              </span>
+
+              <app-input
+                formControlName="birthdate"
+                label="Data de Nascimento *"
+                type="date"
+              ></app-input>
+              <span
+                *ngIf="
+                  birthdate?.invalid && (birthdate?.dirty || birthdate?.touched)
+                "
+                class="text-red-500 text-sm"
+              >
+                Data de nascimento é obrigatória
+              </span>
+            </div>
+          </form>
+        </app-step>
+
+        <app-step [formGroup]="address" [stepConfig]="steps[1]">
+          <form [formGroup]="address">
+            <div class="flex flex-col gap-3">
+              <app-input formControlName="street" label="Rua *"></app-input>
+              <span
+                *ngIf="street?.invalid && (street?.dirty || street?.touched)"
+                class="text-red-500 text-sm"
+              >
+                Rua é obrigatória
+              </span>
+
+              <app-input formControlName="city" label="Cidade *"></app-input>
+              <span
+                *ngIf="city?.invalid && (city?.dirty || city?.touched)"
+                class="text-red-500 text-sm"
+              >
+                Cidade é obrigatória
+              </span>
+
+              <app-input formControlName="state" label="Distrito *"></app-input>
+              <span
+                *ngIf="state?.invalid && (state?.dirty || state?.touched)"
+                class="text-red-500 text-sm"
+              >
+                Distrito é obrigatório
+              </span>
+
+              <app-input
+                formControlName="postalCode"
+                label="Código Postal *"
+              ></app-input>
+              <span
+                *ngIf="postalCode?.invalid && (postalCode?.dirty || postalCode?.touched)"
+                class="text-red-500 text-sm"
+              >
+                Código Postal é obrigatório
+              </span>
+
+              <app-input formControlName="country" label="País *"></app-input>
+              <span
+                *ngIf="country?.invalid && (country?.dirty || country?.touched)"
+                class="text-red-500 text-sm"
+              >
+                País é obrigatório
+              </span>
+            </div>
+          </form>
+        </app-step>
+
+        <app-step [formGroup]="credentials" [stepConfig]="steps[2]">
+          <form [formGroup]="credentials">
+            <div class="flex flex-col gap-3">
+              <app-input
+                formControlName="documentNumber"
+                type="number"
+                label="Cartão de Cidadão *"
+              ></app-input>
+              <span
+                *ngIf="
+                  documentNumber?.invalid &&
+                  (documentNumber?.dirty || documentNumber?.touched)
+                "
+                class="text-red-500 text-sm"
+              >
+                Cartão de Cidadão é obrigatório
+              </span>
+
+              <app-input
+                type="password"
+                formControlName="password"
+                label="Password *"
+              ></app-input>
+              <span
+                *ngIf="
+                  password?.invalid && (password?.dirty || password?.touched)
+                "
+                class="text-red-500 text-sm"
+                >Password é obrigatória</span
+              >
+
+              <!-- Dynamic Password Requirements -->
+              <ul class="list-disc pl-5 text-sm space-y-1">
+                <li
+                  *ngFor="let requirement of passwordRequirements"
+                  [class.text-green-500]="requirement.met"
+                  [class.text-gray-500]="!requirement.met"
+                >
+                  {{ requirement.label }}
+                </li>
+              </ul>
+
+              <!-- Confirm Password Field -->
+              <app-input
+                type="password"
+                formControlName="confirmPassword"
+                label="Confirmar Password *"
+              ></app-input>
+              <span
+                *ngIf="confirmPassword?.invalid && confirmPassword?.touched"
+                class="text-red-500 text-sm"
+                >Confirmação de Password é obrigatória</span
+              >
+              <span
+                *ngIf="
+                  confirmPassword?.value !== password?.value &&
+                  confirmPassword?.touched
+                "
+                class="text-red-500 text-sm"
+                >As passwords não coincidem</span
+              >
+            </div>
+          </form>
+        </app-step>
+
+        <app-step [formGroup]="additionalInformation" [stepConfig]="steps[3]">
+          <form [formGroup]="additionalInformation">
+            <div class="flex flex-col gap-3">
+              <app-select
+                (valueChange)="role?.setValue($event)"
+                label="Tipo de Conta *"
+              >
+                <option value="0">Utente</option>
+                <option value="1">Médico</option>
+              </app-select>
+              <span
+                *ngIf="role?.invalid && (role?.dirty || role?.touched)"
+                class="text-red-500 text-sm"
+              >
+                Tipo de Conta é obrigatório
+              </span>
+
+              <ng-container *ngIf="role?.value === '0'">
+                <app-input
+                  formControlName="snsNumber"
+                  label="Número SNS *"
+                  type="number"
+                ></app-input>
+                <span
+                  *ngIf="
+                    snsNumber?.invalid &&
+                    (snsNumber?.dirty || snsNumber?.touched)
+                  "
+                  class="text-red-500 text-sm"
+                >
+                  Número SNS é obrigatório
+                </span>
+              </ng-container>
+
+              <ng-container *ngIf="role?.value === '1'">
+                <app-input
+                  formControlName="licenseNumber"
+                  label="Número de Licença *"
+                  type="number"
+                ></app-input>
+                <span
+                  *ngIf="
+                    licenseNumber?.invalid &&
+                    (licenseNumber?.dirty || licenseNumber?.touched)
+                  "
+                  class="text-red-500 text-sm"
+                >
+                  Número de Licença é obrigatório
+                </span>
+
+                <app-input
+                  formControlName="specialty"
+                  label="Especialidade *"
+                ></app-input>
+                <span
+                  *ngIf="
+                    specialty?.invalid &&
+                    (specialty?.dirty || specialty?.touched)
+                  "
+                  class="text-red-500 text-sm"
+                >
+                  Especialidade é obrigatória
+                </span>
+
+                <div class="flex flex-col gap-3">
+                  <!-- Label -->
+                  <label for="institutions" class="font-medium text-sm"
+                    >Instituições *</label
+                  >
+
+                  <!-- Multi-Select Dropdown -->
+                  <select
+                    id="institutions"
+                    multiple
+                    class="block w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    (change)="onInstitutionChange($event)"
+                  >
+                    <option
+                      *ngFor="let institution of institutionOptions"
+                      [value]="institution.id"
+                      [selected]="institutions?.value.includes(institution.id)"
+                    >
+                      {{ institution.name }}
+                    </option>
+                  </select>
+
+                  <!-- Validation Error -->
+                  <span
+                    *ngIf="
+                      institutions?.invalid &&
+                      (institutions?.dirty || institutions?.touched)
+                    "
+                    class="text-red-500 text-sm"
+                  >
+                    Instituições são obrigatórias
+                  </span>
+                </div>
+              </ng-container>
+            </div>
+          </form>
+        </app-step>
+      </app-stepper>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,150 @@
+<div class="flex flex-col space-y-5">
+  <div class="flex flex-wrap gap-4 items-center">
+    <div class="relative group min-w-24 min-h-24 cursor-pointer" (click)="triggerFileInput()">
+      <img [src]="userPictureUrl || 'assets/img/profile.png'" alt="User Picture"
+        class="w-24 h-24 rounded-full border-2 border-gray-300 object-cover" />
+      <div
+        class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <p class="text-white text-sm">Alterar Foto</p>
+      </div>
+    </div>
+    <input type="file" accept="image/*" class="hidden" #fileInput (change)="onFileSelected($event)" />
+    <div class="flex flex-col justify-center flex-grow">
+      <h1 class="font-medium text-2xl">Perfil do Utilizador</h1>
+      <p class="text-gray-600">Atualize os seus dados pessoais</p>
+    </div>
+    <app-button (click)="onSubmit()">Guardar Alterações</app-button>
+  </div>
+
+  <form [formGroup]="profileForm">
+    <app-tabs-container>
+      <app-tab title="Dados Pessoais">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 py-4">
+          <div>
+            <app-input formControlName="phoneNumber" label="Telefone *"></app-input>
+            <span *ngIf="
+                  phoneNumber?.invalid &&
+                  (phoneNumber?.dirty || phoneNumber?.touched)
+                " class="text-red-500 text-sm">O Telefone é obrigatório ou inválido.</span>
+          </div>
+
+          <div>
+            <app-input formControlName="email" label="Email *"></app-input>
+            <span *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="text-red-500 text-sm">O Email é
+              obrigatório ou inválido.</span>
+          </div>
+
+          <div>
+            <app-input [readonly]="true" formControlName="name" label="Nome *"></app-input>
+            <span *ngIf="name?.invalid && (name?.dirty || name?.touched)" class="text-red-500 text-sm">O Nome é
+              obrigatório.</span>
+          </div>
+
+          <div>
+            <app-input formControlName="gender" label="Gênero *" [readonly]="true">
+            </app-input>
+            <span *ngIf="gender?.invalid && (gender?.dirty || gender?.touched)" class="text-red-500 text-sm">
+              O Gênero é obrigatório.
+            </span>
+          </div>
+
+          <div>
+            <app-input formControlName="birthdate" [readonly]="true" label="Data de Nascimento *"
+              type="date"></app-input>
+            <span *ngIf="
+                  birthdate?.invalid && (birthdate?.dirty || birthdate?.touched)
+                " class="text-red-500 text-sm">A Data de Nascimento é obrigatória.</span>
+          </div>
+
+          <div>
+            <app-input formControlName="documentNumber" label="Número do Documento *" [readonly]="true"></app-input>
+            <span *ngIf="
+                  documentNumber?.invalid &&
+                  (documentNumber?.dirty || documentNumber?.touched)
+                " class="text-red-500 text-sm">O Número do Documento é obrigatório.</span>
+          </div>
+
+          <div *ngIf="!isDoctor">
+            <app-input formControlName="snsNumber" label="Número SNS *" [readonly]="true"></app-input>
+            <span *ngIf="
+                  snsNumber?.invalid && (snsNumber?.dirty || snsNumber?.touched)
+                " class="text-red-500 text-sm">O Número SNS é obrigatório.</span>
+          </div>
+        </div>
+      </app-tab>
+
+      <app-tab title="Morada">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 py-4">
+          <div>
+            <app-input formControlName="street" label="Rua *"></app-input>
+            <span *ngIf="street?.invalid && (street?.dirty || street?.touched)" class="text-red-500 text-sm">A Rua é
+              obrigatória.</span>
+          </div>
+
+          <div>
+            <app-input formControlName="city" label="Cidade *"></app-input>
+            <span *ngIf="city?.invalid && (city?.dirty || city?.touched)" class="text-red-500 text-sm">A Cidade é
+              obrigatória.</span>
+          </div>
+
+          <div>
+            <app-input formControlName="state" label="Distrito *"></app-input>
+            <span *ngIf="state?.invalid && (state?.dirty || state?.touched)" class="text-red-500 text-sm">O Distrito é
+              obrigatório.</span>
+          </div>
+
+          <div>
+            <app-input formControlName="zipCode" label="Código Postal *"></app-input>
+            <span *ngIf="zipCode?.invalid && (zipCode?.dirty || zipCode?.touched)" class="text-red-500 text-sm">O Código
+              Postal é obrigatório.</span>
+          </div>
+
+          <div>
+            <app-input formControlName="country" label="País *"></app-input>
+            <span *ngIf="country?.invalid && (country?.dirty || country?.touched)" class="text-red-500 text-sm">O País é
+              obrigatório.</span>
+          </div>
+        </div>
+      </app-tab>
+
+      <app-tab *ngIf="isDoctor" title="Informações do Médico">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 py-4">
+          <div>
+            <app-input formControlName="licenseNumber" label="Número de Licença *"></app-input>
+            <span *ngIf="
+                  licenseNumber?.invalid &&
+                  (licenseNumber?.dirty || licenseNumber?.touched)
+                " class="text-red-500 text-sm">O Número de Licença é obrigatório.</span>
+          </div>
+
+          <div>
+            <app-input formControlName="specialty" label="Especialidade *"></app-input>
+            <span *ngIf="
+                  specialty?.invalid && (specialty?.dirty || specialty?.touched)
+                " class="text-red-500 text-sm">A Especialidade é obrigatória.</span>
+          </div>
+
+          <!-- Institutions Section -->
+          <div class="col-span-2">
+            <label for="institutions" class="font-medium text-sm">Instituições *</label>
+            <select id="institutions" multiple
+              class="block w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              (change)="onInstitutionChange($event)">
+              <option *ngFor="let institution of institutionOptions" [value]="institution.id"
+                [selected]="selectedInstitutions.includes(institution.id)">
+                {{ institution.name }}
+              </option>
+            </select>
+            <span *ngIf="
+                  institutions?.invalid &&
+                  (institutions?.dirty || institutions?.touched)
+                " class="text-red-500 text-sm">
+              Instituições são obrigatórias.
+            </span>
+          </div>
+        </div>
+      </app-tab>
+
+    </app-tabs-container>
+  </form>
+</div>

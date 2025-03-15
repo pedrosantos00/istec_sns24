@@ -1,0 +1,53 @@
+<div
+  class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+>
+  <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+    <h2 class="text-xl font-semibold mb-4">Calcular IMC</h2>
+    <form class="space-y-4">
+      <app-input
+        id="weight"
+        label="Peso (kg)"
+        [(ngModel)]="weight"
+        name="weight"
+        type="number"
+      ></app-input>
+
+      <app-input
+        id="height"
+        label="Altura (cm)"
+        [(ngModel)]="heightCm"
+        name="height"
+        type="number"
+      ></app-input>
+
+      <div *ngIf="result" class="mt-4">
+        <p class="text-lg font-medium text-gray-700">
+          O seu IMC é: <span class="text-blue-600">{{ result }}</span>
+        </p>
+        <p class="text-md font-medium text-gray-600">
+          Classificação:
+          <span class="text-green-600">{{ classification }}</span>
+        </p>
+      </div>
+
+      <div class="flex justify-end space-x-2">
+        <app-button
+          bgColor="bg-gray-200"
+          color="text-black"
+          bgHover="hover:bg-gray-300"
+          (click)="closeModal()"
+        >
+          Fechar
+        </app-button>
+        <app-button
+          bgColor="bg-blue-500"
+          color="text-white"
+          bgHover="hover:bg-blue-600"
+          (click)="calculateIMC()"
+        >
+          Calcular
+        </app-button>
+      </div>
+    </form>
+  </div>
+</div>
