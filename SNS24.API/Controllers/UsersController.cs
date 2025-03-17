@@ -12,11 +12,8 @@ using SNS24.API.DTOs.Users;
 using SNS24.API.Utilities;
 using SNS24.WebApi.Controllers;
 using SNS24.WebApi.Enums;
-using SNS24.WebApi.Migrations;
-using SNS24.WebApi.Models;
 using SNS24.WebApi.Utilities.Authorization;
 using System.Net;
-using System.Security.Claims;
 
 namespace SNS24.API.Controllers
 {

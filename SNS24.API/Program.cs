@@ -15,11 +15,12 @@ namespace SNS24.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var db = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+            var serverVersion = new MySqlServerVersion(new Version(8, 4, 4));
 
             // Configure DbContext
             builder.Services.AddDbContext<ApplicationDbContext>(opt =>
-                opt.UseSqlServer(Environment.GetEnvironmentVariable("CONNECTION_STRING"))
-            );
+                opt.UseMySql(db,serverVersion));
 
             // Quartz
             builder.Services.AddQuartz(q =>
