@@ -18,7 +18,7 @@ namespace SNS24.Api
 
             // Configure DbContext
             builder.Services.AddDbContext<ApplicationDbContext>(opt =>
-                opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+                opt.UseSqlServer(Environment.GetEnvironmentVariable("CONNECTION_STRING"))
             );
 
             // Quartz
@@ -54,8 +54,6 @@ namespace SNS24.Api
                     });
             });
 
-
-            builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection(nameof(JwtSettings)));
             builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SMTP"));
 
 

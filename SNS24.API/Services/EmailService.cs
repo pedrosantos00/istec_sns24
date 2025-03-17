@@ -14,11 +14,10 @@ public class SmtpSettings
 
 public class EmailService
 {
-    private readonly SmtpSettings _smtpSettings;
-
-    public EmailService(IOptions<SmtpSettings> smtpSettings)
+    private readonly string _username = Environment.GetEnvironmentVariable("SMTP_USERNAME");
+    private readonly string _password = Environment.GetEnvironmentVariable("SMTP_PASSWORD");
+    public EmailService()
     {
-        _smtpSettings = smtpSettings.Value;
     }
 
     public void SendEmailWithTemplate(string toEmail, string subject, string templateName, Dictionary<string, string> placeholders)
@@ -93,7 +92,7 @@ public class EmailService
     {
         var mailMessage = new MailMessage
         {
-            From = new MailAddress(_smtpSettings.Username, "SNS24"),
+            From = new MailAddress(_username, "SNS24"),
             Subject = subject,
             Body = body,
             IsBodyHtml = true
@@ -101,9 +100,9 @@ public class EmailService
 
         mailMessage.To.Add(toEmail);
 
-        using var smtpClient = new SmtpClient(_smtpSettings.Host, _smtpSettings.Port)
+        using var smtpClient = new SmtpClient("smtp.gmail.com", 587)
         {
-            Credentials = new NetworkCredential(_smtpSettings.Username, _smtpSettings.Password),
+            Credentials = new NetworkCredential(_username, _password),
             EnableSsl = true
         };
 
