@@ -1,4 +1,3 @@
-using Azure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SNS24.Api.DTOs.Doctors;
