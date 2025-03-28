@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.sns.pedroasantos.dev/api'
+  apiUrl: 'https://apisns.pedroasantos.dev/api'
 };
