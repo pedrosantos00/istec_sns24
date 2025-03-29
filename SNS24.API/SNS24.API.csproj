@@ -48,4 +48,24 @@
     <ItemGroup>
       <None Remove="Generated\**" />
     </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Templates\AccountConfirmationTemplate.html" />
+      <None Remove="Templates\AppointmentCreatedTemplate.html" />
+      <None Remove="Templates\GeneralEmailTemplate.html" />
+      <None Remove="Templates\MedicalLeaveCreatedTemplate.html" />
+      <None Remove="Templates\MedicalLeaveExpiredTemplate.html" />
+      <None Remove="Templates\MedicalLeaveExpiringTemplate.html" />
+      <None Remove="Templates\PasswordRecoveryTemplate.html" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Templates\AccountConfirmationTemplate.html" />
+      <EmbeddedResource Include="Templates\AppointmentCreatedTemplate.html" />
+      <EmbeddedResource Include="Templates\GeneralEmailTemplate.html" />
+      <EmbeddedResource Include="Templates\MedicalLeaveCreatedTemplate.html" />
+      <EmbeddedResource Include="Templates\MedicalLeaveExpiredTemplate.html" />
+      <EmbeddedResource Include="Templates\MedicalLeaveExpiringTemplate.html" />
+      <EmbeddedResource Include="Templates\PasswordRecoveryTemplate.html" />
+    </ItemGroup>
 </Project>
