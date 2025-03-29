@@ -27,13 +27,13 @@ namespace SNS24.WebApi.Utilities.Authorization
                 new Claim("role", applicationUser.Role.ToString()),
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("JjHMKgMp43Ztex119hUOYRO90IsxG8DC"));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
-                issuer: _jwtSettings.Issuer,
-                audience: _jwtSettings.Audience,
+                issuer: "SNS24API",
+                audience: "SNS24Users",
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(_jwtSettings.ExpiresInMinutes),
+                expires: DateTime.UtcNow.AddMinutes(60),
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
