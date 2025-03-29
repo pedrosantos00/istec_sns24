@@ -98,6 +98,7 @@ public class EmailService
             IsBodyHtml = true
         };
 
+
         mailMessage.To.Add(toEmail);
 
         using var smtpClient = new SmtpClient("smtp.gmail.com", 587)
