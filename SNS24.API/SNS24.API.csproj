@@ -50,22 +50,26 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="Templates\AccountConfirmationTemplate.html" />
-      <None Remove="Templates\AppointmentCreatedTemplate.html" />
-      <None Remove="Templates\GeneralEmailTemplate.html" />
-      <None Remove="Templates\MedicalLeaveCreatedTemplate.html" />
-      <None Remove="Templates\MedicalLeaveExpiredTemplate.html" />
-      <None Remove="Templates\MedicalLeaveExpiringTemplate.html" />
-      <None Remove="Templates\PasswordRecoveryTemplate.html" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <EmbeddedResource Include="Templates\AccountConfirmationTemplate.html" />
-      <EmbeddedResource Include="Templates\AppointmentCreatedTemplate.html" />
-      <EmbeddedResource Include="Templates\GeneralEmailTemplate.html" />
-      <EmbeddedResource Include="Templates\MedicalLeaveCreatedTemplate.html" />
-      <EmbeddedResource Include="Templates\MedicalLeaveExpiredTemplate.html" />
-      <EmbeddedResource Include="Templates\MedicalLeaveExpiringTemplate.html" />
-      <EmbeddedResource Include="Templates\PasswordRecoveryTemplate.html" />
+		<Content Include="Templates\AccountConfirmationTemplate.html">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Templates\AppointmentCreatedTemplate.html">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+      <Content Include="Templates\GeneralEmailTemplate.html">
+	      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Templates\MedicalLeaveCreatedTemplate.html">
+	      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Templates\MedicalLeaveExpiredTemplate.html">
+	      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Templates\MedicalLeaveExpiringTemplate.html">
+	      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Templates\PasswordRecoveryTemplate.html">
+	      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 </Project>
